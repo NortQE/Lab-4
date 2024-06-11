@@ -1,0 +1,99 @@
+using System;
+using System.Globalization;
+
+namespace LB4
+{
+    class Plant
+    {
+        public string Name;
+        public string Type; // e.g. Tree, Shrub, Flower, etc.
+        public double Height;
+        public bool IsEdible;
+        public int AgeInYears;
+        public string NativeRegion;
+        public double MaintenanceCost;
+        public double GetMaintenanceCostPerYear()
+        {
+            return MaintenanceCost / AgeInYears;
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.Write("Введите название растения: ");
+            string name = Console.ReadLine();
+            Console.Write("Введите тип растения (дерево, куст, цветок и т.д.): ");
+            string type = Console.ReadLine();
+
+            double height;
+            while (true)
+            {
+                Console.Write("Введите высоту растения (в метрах): ");
+                string heightInput = Console.ReadLine();
+                if (double.TryParse(heightInput, NumberStyles.Any, CultureInfo.InvariantCulture, out height))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод. Пожалуйста, введите число.");
+                }
+            }
+
+            Console.Write("Является ли растение съедобным? (y/n): ");
+            bool isEdible = Console.ReadKey().Key == ConsoleKey.Y;
+            Console.WriteLine();
+
+            int ageInYears;
+            while (!int.TryParse(Console.ReadLine(), out ageInYears))
+            {
+                Console.WriteLine("Некорректный ввод. Пожалуйста, введите целое число.");
+                Console.Write("Введите возраст растения (в годах): ");
+            }
+
+            Console.Write("Введите родной регион растения: ");
+            string nativeRegion = Console.ReadLine();
+
+            double maintenanceCost;
+            while (true)
+            {
+                Console.Write("Введите стоимость ежегодного обслуживания: ");
+                string maintenanceCostInput = Console.ReadLine();
+                if (double.TryParse(maintenanceCostInput, NumberStyles.Any, CultureInfo.InvariantCulture, out maintenanceCost))
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Некорректный ввод. Пожалуйста, введите число.");
+                }
+            }
+
+            Plant myPlant = new Plant();
+            myPlant.Name = name;
+            myPlant.Type = type;
+            myPlant.Height = height;
+            myPlant.IsEdible = isEdible;
+            myPlant.AgeInYears = ageInYears;
+            myPlant.NativeRegion = nativeRegion;
+            myPlant.MaintenanceCost = maintenanceCost;
+
+            double maintenanceCostPerYear = myPlant.GetMaintenanceCostPerYear();
+
+            Console.WriteLine();
+            Console.WriteLine("Информация о растении:");
+            Console.WriteLine($"Название: {myPlant.Name}");
+            Console.WriteLine($"Тип: {myPlant.Type}");
+            Console.WriteLine($"Высота: {myPlant.Height} метров");
+            Console.WriteLine($"Съедобное: {(myPlant.IsEdible ? "Да" : "Нет")}");
+            Console.WriteLine($"Возраст: {myPlant.AgeInYears} лет");
+            Console.WriteLine($"Родной регион: {myPlant.NativeRegion}");
+            Console.WriteLine($"Стоимость обслуживания: {myPlant.MaintenanceCost:C}");
+            Console.WriteLine($"Ежегодная стоимость обслуживания: {maintenanceCostPerYear:C}");
+
+            Console.ReadLine();
+        }
+    }
+}
